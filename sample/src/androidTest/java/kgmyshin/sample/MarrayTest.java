@@ -129,7 +129,7 @@ public class MarrayTest {
         assertThat(9, is(marray.three()));
         assertThat(12, is(marray.four()));
         assertThat(15, is(marray.five()));
-        assertThat(126, is(marray.fourtyTwo()));
+        assertThat(126, is(marray.fortyTwo()));
     }
 
 }

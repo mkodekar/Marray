@@ -10,7 +10,7 @@ This library is very small.
 
 ```
 dependencies {
-    compile 'kgmyshin:marray:0.0.2'
+    compile 'kgmyshin:marray:0.0.3'
 }
 ```
 
@@ -88,7 +88,7 @@ List instance change Marray instance.
     marray.three();     // 9
     marray.four();      // 12
     marray.five();      // 15
-    marray.fourtyTwo(); // 126
+    marray.fortyTwo(); // 126
 ```
 
 ## Method Chain

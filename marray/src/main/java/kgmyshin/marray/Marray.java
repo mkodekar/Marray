@@ -103,7 +103,7 @@ public class Marray<T> extends ArrayList<T> {
         return get(5);
     }
 
-    public T fourtyTwo() {
+    public T fortyTwo() {
         return get(42);
     }
 
