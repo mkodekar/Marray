@@ -18,10 +18,10 @@ public class Marray<T> extends ArrayList<T> {
         }
     }
 
-    public boolean any(Cond<T> cond) {
+    public boolean any(CondOpe<T> condOpe) {
         boolean result = false;
         for (T item : this) {
-            if (cond.cond(item)) {
+            if (condOpe.cond(item)) {
                 result = true;
                 break;
             }
@@ -29,10 +29,10 @@ public class Marray<T> extends ArrayList<T> {
         return result;
     }
 
-    public boolean all(Cond<T> cond) {
+    public boolean all(CondOpe<T> condOpe) {
         boolean result = true;
         for (T item : this) {
-            if (!cond.cond(item)) {
+            if (!condOpe.cond(item)) {
                 result = false;
                 break;
             }
@@ -40,18 +40,18 @@ public class Marray<T> extends ArrayList<T> {
         return result;
     }
 
-    public <U> Marray<U> map(Func<T, U> func) {
+    public <U> Marray<U> map(MapOpe<T, U> ope) {
         Marray<U> result = new Marray<>();
         for (T item : this) {
-            result.add(func.func(item));
+            result.add(ope.func(item));
         }
         return result;
     }
 
-    public Marray<T> filter(Func<T, Boolean> cond) {
+    public Marray<T> filter(CondOpe<T> condOpe) {
         Marray<T> result = new Marray<>();
         for (T item : this) {
-            if (cond.func(item)) {
+            if (condOpe.cond(item)) {
                 result.add(item);
             }
         }
@@ -69,6 +69,14 @@ public class Marray<T> extends ArrayList<T> {
             }
         }
         return sbf.toString();
+    }
+
+    public T reduce(ReduceOpe<T> ope) {
+        T result = zero();
+        for (int i = 1; i < size(); i++) {
+            result = ope.func(result, get(i));
+        }
+        return result;
     }
 
     public T zero() {
@@ -99,11 +107,15 @@ public class Marray<T> extends ArrayList<T> {
         return get(42);
     }
 
-    public interface Func<T, U> {
+    public interface MapOpe<T, U> {
         U func(T t);
     }
 
-    public interface Cond<T> {
+    public interface ReduceOpe<T> {
+        T func(T x, T y);
+    }
+
+    public interface CondOpe<T> {
         boolean cond(T t);
     }
 

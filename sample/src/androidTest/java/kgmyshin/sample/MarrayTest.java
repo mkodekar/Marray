@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 public class MarrayTest {
 
     @Test
-    public void testList2Marray() {
+    public void testConstructor() {
         Marray<String> marray = new Marray(Arrays.asList("A", "B", "C"));
 
         assertThat("A", is(marray.get(0)));
@@ -25,7 +25,7 @@ public class MarrayTest {
     public void testAny() {
         Marray<String> marray = new Marray(Arrays.asList("ABC", "DDDD", "EEEEE"));
 
-        boolean correct = marray.any(new Marray.Cond<String>() {
+        boolean correct = marray.any(new Marray.CondOpe<String>() {
             @Override
             public boolean cond(String s) {
                 return s.length() > 4;
@@ -33,7 +33,7 @@ public class MarrayTest {
         });
         assertThat(true, is(correct));
 
-        boolean wrong = marray.any(new Marray.Cond<String>() {
+        boolean wrong = marray.any(new Marray.CondOpe<String>() {
             @Override
             public boolean cond(String s) {
                 return s.length() > 5;
@@ -46,7 +46,7 @@ public class MarrayTest {
     public void testAll() {
         Marray<String> marray = new Marray(Arrays.asList("ABC", "DDDD", "EEEEE"));
 
-        boolean correct = marray.all(new Marray.Cond<String>() {
+        boolean correct = marray.all(new Marray.CondOpe<String>() {
             @Override
             public boolean cond(String s) {
                 return s.length() > 2;
@@ -54,7 +54,7 @@ public class MarrayTest {
         });
         assertThat(true, is(correct));
 
-        boolean wrong = marray.all(new Marray.Cond<String>() {
+        boolean wrong = marray.all(new Marray.CondOpe<String>() {
             @Override
             public boolean cond(String s) {
                 return s.length() > 3;
@@ -67,7 +67,7 @@ public class MarrayTest {
     public void testMap() {
         Marray<Integer> marray = new Marray(Arrays.asList(1, 2, 5));
 
-        Marray<Integer> mapped = marray.map(new Marray.Func<Integer, Integer>() {
+        Marray<Integer> mapped = marray.map(new Marray.MapOpe<Integer, Integer>() {
             @Override
             public Integer func(Integer integer) {
                 return integer * 2;
@@ -83,9 +83,9 @@ public class MarrayTest {
     public void testFilter() {
         Marray<Integer> marray = new Marray(Arrays.asList(15, 9, 15, 30, 2));
 
-        Marray<Integer> filtered = marray.filter(new Marray.Func<Integer, Boolean>() {
+        Marray<Integer> filtered = marray.filter(new Marray.CondOpe<Integer>() {
             @Override
-            public Boolean func(Integer integer) {
+            public boolean cond(Integer integer) {
                 return integer > 10;
             }
         });
@@ -100,6 +100,36 @@ public class MarrayTest {
         Marray<Integer> marray = new Marray(Arrays.asList(15, 9, 15, 30, 2));
 
         assertThat("15,9,15,30,2", is(marray.join(",")));
+    }
+
+    @Test
+    public void testReduce() {
+        Marray<Integer> marray = new Marray(Arrays.asList(1, 2, 3, 4, 5));
+
+        int result = marray.reduce(new Marray.ReduceOpe<Integer>() {
+            @Override
+            public Integer func(Integer x, Integer y) {
+                return x + y;
+            }
+        });
+
+        assertThat(15, is(result));
+    }
+
+    @Test
+    public void testNumbers() {
+        Marray<Integer> marray = new Marray<>();
+        for (int i = 0; i < 50; i++) {
+            marray.add(i * 3);
+        }
+
+        assertThat(0, is(marray.zero()));
+        assertThat(3, is(marray.one()));
+        assertThat(6, is(marray.two()));
+        assertThat(9, is(marray.three()));
+        assertThat(12, is(marray.four()));
+        assertThat(15, is(marray.five()));
+        assertThat(126, is(marray.fourtyTwo()));
     }
 
 }
