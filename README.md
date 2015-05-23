@@ -62,7 +62,7 @@ List instance change Marray instance.
 ## Usage
 
 ```
-Copyright 2014 kgmyshin
+Copyright 2015 kgmyshin
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
