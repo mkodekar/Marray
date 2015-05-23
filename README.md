@@ -36,7 +36,7 @@ List instance change Marray instance.
     // mapped => 2, 4, 10
 ```
 
-### filter
+#### filter
 
 ```
     Marray<Integer> marray = Marray.list2Marray(Arrays.asList(15, 9, 15, 30, 2));
@@ -50,12 +50,32 @@ List instance change Marray instance.
     // filtered => 15, 15, 30
 ```
 
-### join
+#### join
 
 ```
     Marray<Integer> marray = Marray.list2Marray(Arrays.asList(15, 9, 15, 30, 2));
 
     Log.d("Log", marray.join(",")); // "15,9,15,30,2"
+```
+
+## Method Chain
+
+You can use method chain.
+
+```
+    Marray<String> marray = Marray.list2Marray(Arrays.asList("one", "two", "three", "four"));
+    marray.map(new Marray.Func<String, String>() {
+        @Override
+        public String func(String s) {
+            return s + s;
+        }
+    }).filter(new Marray.Func<String, Boolean>() {
+        @Override
+        public Boolean func(String s) {
+            return s.length() > 7;
+        }
+    })
+    .join(" "); // "threethree fourfour"
 ```
 
 
