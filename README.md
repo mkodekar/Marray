@@ -10,7 +10,7 @@ This library is very small.
 
 ```
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'kgmyshin:marray:0.0.1'
 }
 ```
 
