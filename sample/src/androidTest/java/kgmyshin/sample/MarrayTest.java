@@ -14,7 +14,7 @@ public class MarrayTest {
 
     @Test
     public void testList2Marray() {
-        Marray<String> marray = Marray.list2Marray(Arrays.asList("A", "B", "C"));
+        Marray<String> marray = new Marray(Arrays.asList("A", "B", "C"));
 
         assertThat("A", is(marray.get(0)));
         assertThat("B", is(marray.get(1)));
@@ -23,19 +23,19 @@ public class MarrayTest {
 
     @Test
     public void testAny() {
-        Marray<String> marray = Marray.list2Marray(Arrays.asList("ABC", "DDDD", "EEEEE"));
+        Marray<String> marray = new Marray(Arrays.asList("ABC", "DDDD", "EEEEE"));
 
-        boolean correct = marray.any(new Marray.Func<String, Boolean>() {
+        boolean correct = marray.any(new Marray.Cond<String>() {
             @Override
-            public Boolean func(String s) {
+            public boolean cond(String s) {
                 return s.length() > 4;
             }
         });
         assertThat(true, is(correct));
 
-        boolean wrong = marray.any(new Marray.Func<String, Boolean>() {
+        boolean wrong = marray.any(new Marray.Cond<String>() {
             @Override
-            public Boolean func(String s) {
+            public boolean cond(String s) {
                 return s.length() > 5;
             }
         });
@@ -44,19 +44,19 @@ public class MarrayTest {
 
     @Test
     public void testAll() {
-        Marray<String> marray = Marray.list2Marray(Arrays.asList("ABC", "DDDD", "EEEEE"));
+        Marray<String> marray = new Marray(Arrays.asList("ABC", "DDDD", "EEEEE"));
 
-        boolean correct = marray.all(new Marray.Func<String, Boolean>() {
+        boolean correct = marray.all(new Marray.Cond<String>() {
             @Override
-            public Boolean func(String s) {
+            public boolean cond(String s) {
                 return s.length() > 2;
             }
         });
         assertThat(true, is(correct));
 
-        boolean wrong = marray.all(new Marray.Func<String, Boolean>() {
+        boolean wrong = marray.all(new Marray.Cond<String>() {
             @Override
-            public Boolean func(String s) {
+            public boolean cond(String s) {
                 return s.length() > 3;
             }
         });
@@ -65,7 +65,7 @@ public class MarrayTest {
 
     @Test
     public void testMap() {
-        Marray<Integer> marray = Marray.list2Marray(Arrays.asList(1, 2, 5));
+        Marray<Integer> marray = new Marray(Arrays.asList(1, 2, 5));
 
         Marray<Integer> mapped = marray.map(new Marray.Func<Integer, Integer>() {
             @Override
@@ -81,7 +81,7 @@ public class MarrayTest {
 
     @Test
     public void testFilter() {
-        Marray<Integer> marray = Marray.list2Marray(Arrays.asList(15, 9, 15, 30, 2));
+        Marray<Integer> marray = new Marray(Arrays.asList(15, 9, 15, 30, 2));
 
         Marray<Integer> filtered = marray.filter(new Marray.Func<Integer, Boolean>() {
             @Override
@@ -97,7 +97,7 @@ public class MarrayTest {
 
     @Test
     public void testJoin() {
-        Marray<Integer> marray = Marray.list2Marray(Arrays.asList(15, 9, 15, 30, 2));
+        Marray<Integer> marray = new Marray(Arrays.asList(15, 9, 15, 30, 2));
 
         assertThat("15,9,15,30,2", is(marray.join(",")));
     }
