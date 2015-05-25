@@ -12,7 +12,7 @@ public class Marray<T> extends ArrayList<T> {
     }
 
     public Marray(List<T> array) {
-        this();
+        super(array.size());
         for (T item : array) {
             add(item);
         }
