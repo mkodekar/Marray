@@ -1,6 +1,8 @@
 package kgmyshin.marray;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -8,14 +10,15 @@ import java.util.List;
  */
 public class Marray<T> extends ArrayList<T> {
 
-    public Marray(){
+    public Marray() {
     }
 
-    public Marray(List<T> array) {
-        super(array.size());
-        for (T item : array) {
-            add(item);
-        }
+    public Marray(int size) {
+        super(size);
+    }
+
+    public Marray(Collection<? extends T> collection) {
+        super(collection);
     }
 
     public boolean any(CondOpe<T> condOpe) {
@@ -71,8 +74,24 @@ public class Marray<T> extends ArrayList<T> {
         return sbf.toString();
     }
 
+    public T foldl(FoldOpe<T> ope) {
+        T result = head();
+        for (int i = 1; i < size(); i++) {
+            result = ope.func(result, get(i));
+        }
+        return result;
+    }
+
+    public T foldr(FoldOpe<T> ope) {
+        T result = last();
+        for (int i = size() - 2; i >= 0; i--) {
+            result = ope.func(result, get(i));
+        }
+        return result;
+    }
+
     public T reduce(ReduceOpe<T> ope) {
-        T result = zero();
+        T result = head();
         for (int i = 1; i < size(); i++) {
             result = ope.func(result, get(i));
         }
@@ -107,11 +126,35 @@ public class Marray<T> extends ArrayList<T> {
         return get(42);
     }
 
+    public T head() {
+        return get(0);
+    }
+
+    public T last() {
+        return get(size() - 1);
+    }
+
+    public Marray<T> reverse() {
+        Marray<T> clone = new Marray<>(this);
+        Collections.reverse(clone);
+        return clone;
+    }
+
+    public Marray<T> shuffle() {
+        Marray<T> clone = new Marray<>(this);
+        Collections.shuffle(clone);
+        return clone;
+    }
+
     public interface MapOpe<T, U> {
         U func(T t);
     }
 
     public interface ReduceOpe<T> {
+        T func(T x, T y);
+    }
+
+    public interface FoldOpe<T> {
         T func(T x, T y);
     }
 

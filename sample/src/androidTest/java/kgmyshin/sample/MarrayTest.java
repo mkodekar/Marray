@@ -16,9 +16,9 @@ public class MarrayTest {
     public void testConstructor() {
         Marray<String> marray = new Marray(Arrays.asList("A", "B", "C"));
 
-        assertThat("A", is(marray.get(0)));
-        assertThat("B", is(marray.get(1)));
-        assertThat("C", is(marray.get(2)));
+        assertThat(marray.get(0), is("A"));
+        assertThat(marray.get(1), is("B"));
+        assertThat(marray.get(2), is("C"));
     }
 
     @Test
@@ -31,7 +31,7 @@ public class MarrayTest {
                 return s.length() > 4;
             }
         });
-        assertThat(true, is(correct));
+        assertThat(correct, is(true));
 
         boolean wrong = marray.any(new Marray.CondOpe<String>() {
             @Override
@@ -39,7 +39,7 @@ public class MarrayTest {
                 return s.length() > 5;
             }
         });
-        assertThat(false, is(wrong));
+        assertThat(wrong, is(false));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class MarrayTest {
                 return s.length() > 2;
             }
         });
-        assertThat(true, is(correct));
+        assertThat(correct, is(true));
 
         boolean wrong = marray.all(new Marray.CondOpe<String>() {
             @Override
@@ -60,7 +60,7 @@ public class MarrayTest {
                 return s.length() > 3;
             }
         });
-        assertThat(false, is(wrong));
+        assertThat(wrong, is(false));
     }
 
     @Test
@@ -74,9 +74,9 @@ public class MarrayTest {
             }
         });
 
-        assertThat(2, is(mapped.get(0)));
-        assertThat(4, is(mapped.get(1)));
-        assertThat(10, is(mapped.get(2)));
+        assertThat(mapped.get(0), is(2));
+        assertThat(mapped.get(1), is(4));
+        assertThat(mapped.get(2), is(10));
     }
 
     @Test
@@ -90,16 +90,16 @@ public class MarrayTest {
             }
         });
 
-        assertThat(15, is(filtered.get(0)));
-        assertThat(15, is(filtered.get(1)));
-        assertThat(30, is(filtered.get(2)));
+        assertThat(filtered.get(0), is(15));
+        assertThat(filtered.get(1), is(15));
+        assertThat(filtered.get(2), is(30));
     }
 
     @Test
     public void testJoin() {
         Marray<Integer> marray = new Marray(Arrays.asList(15, 9, 15, 30, 2));
 
-        assertThat("15,9,15,30,2", is(marray.join(",")));
+        assertThat(marray.join(","), is("15,9,15,30,2"));
     }
 
     @Test
@@ -113,7 +113,35 @@ public class MarrayTest {
             }
         });
 
-        assertThat(15, is(result));
+        assertThat(result, is(15));
+    }
+
+    @Test
+    public void testFoldl() {
+        Marray<Integer> marray = new Marray(Arrays.asList(1, 2, 3, 4, 5));
+
+        int result = marray.foldl(new Marray.FoldOpe<Integer>() {
+            @Override
+            public Integer func(Integer x, Integer y) {
+                return x + y;
+            }
+        });
+
+        assertThat(result, is(15));
+    }
+
+    @Test
+    public void testFoldr() {
+        Marray<Integer> marray = new Marray(Arrays.asList(1, 2, 3, 4, 5));
+
+        int result = marray.foldr(new Marray.FoldOpe<Integer>() {
+            @Override
+            public Integer func(Integer x, Integer y) {
+                return x + y;
+            }
+        });
+
+        assertThat(result, is(15));
     }
 
     @Test
@@ -130,6 +158,39 @@ public class MarrayTest {
         assertThat(12, is(marray.four()));
         assertThat(15, is(marray.five()));
         assertThat(126, is(marray.fortyTwo()));
+        assertThat(marray.zero(), is(0));
+        assertThat(marray.one(), is(3));
+        assertThat(marray.two(), is(6));
+        assertThat(marray.three(), is(9));
+        assertThat(marray.four(), is(12));
+        assertThat(marray.five(), is(15));
+        assertThat(marray.fortyTwo(), is(126));
+    }
+
+    @Test
+    public void testHead() {
+        Marray<Integer> marray = new Marray(Arrays.asList(1, 2, 3, 4, 5));
+
+        assertThat(marray.head(), is(1));
+    }
+
+    @Test
+    public void testLast() {
+        Marray<Integer> marray = new Marray(Arrays.asList(1, 2, 3, 4, 5));
+
+        assertThat(marray.last(), is(5));
+    }
+
+    @Test
+    public void testReverse() {
+        Marray<Integer> marray = new Marray(Arrays.asList(1, 2, 3, 4, 5));
+        Marray<Integer> reversed = marray.reverse();
+
+        assertThat(reversed.zero(), is(5));
+        assertThat(reversed.one(), is(4));
+        assertThat(reversed.two(), is(3));
+        assertThat(reversed.three(), is(2));
+        assertThat(reversed.four(), is(1));
     }
 
 }
